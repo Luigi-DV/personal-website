@@ -42,10 +42,8 @@
             stroke="currentColor"
             fill="none"
           >
-            <rect x="3" y="1" width="7" height="12"></rect>
-            <rect x="3" y="17" width="7" height="6"></rect>
-            <rect x="14" y="1" width="7" height="6"></rect>
-            <rect x="14" y="11" width="7" height="12"></rect>
+            <rect x="3" y="1" width="7" height="22"></rect>
+            <rect x="13" y="13" width="7" height="10"></rect>
           </svg>
           <span
             class="ml-2 text-xl font-bold tracking-wide text-gray-100 uppercase"

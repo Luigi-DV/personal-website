@@ -2,6 +2,19 @@
   <footer class="text-gray-600 bg-white dark:bg-gray-800 body-font">
     <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
       <a href="/" class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900 dark:text-white hover:text-secondary-color">
+        <svg
+          class="w-8 text-secondary-color"
+          viewBox="0 0 24 24"
+          stroke-linejoin="round"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-miterlimit="10"
+          stroke="currentColor"
+          fill="none"
+        >
+          <rect x="3" y="1" width="7" height="22"></rect>
+          <rect x="13" y="13" width="7" height="10"></rect>
+        </svg>
         <span class="ml-3 text-xl">LDV</span>
       </a>
       <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">© {{ this.getYear() }} LDV —
