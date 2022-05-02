@@ -1,8 +1,8 @@
 <template>
-  <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
-    <div class="grid gap-10 lg:grid-cols-2">
+  <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-2xl lg:px-8 lg:py-20 xl:px-24">
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-2">
       <div class="flex flex-col justify-center md:pr-8 xl:pr-0 lg:max-w-lg">
-        <div class="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-green-200">
+        <div class="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-primary-color text-secondary-color">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
@@ -19,7 +19,7 @@
         </div>
         <div>
           <router-link to="about" aria-label="" class="inline-flex items-center font-semibold transition-colors duration-200 text-primary-color dark:text-secondary-color hover:text-deep-purple-800">
-            Leer más
+            Read more
             <svg class="inline-block w-3 ml-2" fill="currentColor" viewBox="0 0 12 12">
               <path d="M9.707,5.293l-5-5A1,1,0,0,0,3.293,1.707L7.586,6,3.293,10.293a1,1,0,1,0,1.414,1.414l5-5A1,1,0,0,0,9.707,5.293Z"></path>
             </svg>

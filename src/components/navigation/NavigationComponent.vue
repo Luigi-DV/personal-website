@@ -1,37 +1,12 @@
 <template>
-  <div class="bg-primary-color">
-    <div
-      class="px-4 py-6 mx-auto lg:py-8 sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8"
-    >
-      <div
-        class="text-white relative flex items-center justify-between lg:justify-center lg:space-x-16"
-      >
-        <ul class="flex items-center hidden space-x-8 lg:flex">
-          <li>
-            <router-link
-              to="/"
-              active-class="active-navigation"
-              aria-label="Home"
-              title="Home"
-              class="font-medium tracking-wide transition-colors duration-200">
-              Home</router-link>
-          </li>
-          <li>
-            <router-link
-              to="/news"
-              active-class="active-navigation"
-              aria-label="Portfolio"
-              title="Portfolio"
-              class="font-medium tracking-wide transition-colors duration-200">
-              Portfolio</router-link>
-          </li>
-        </ul>
-        <a
-          href="/"
+  <div :class="{'bg-primary-color': this.checkIfHome(), 'bg-white dark:bg-gray-800': !this.checkIfHome()}">
+    <div class="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+      <div class="relative flex items-center justify-between">
+        <router-link
+          to="/"
           aria-label="LDV"
           title="LDV"
-          class="inline-flex items-center "
-        >
+          class="inline-flex items-center">
           <svg
             class="w-8 text-secondary-color"
             viewBox="0 0 24 24"
@@ -46,36 +21,55 @@
             <rect x="13" y="13" width="7" height="10"></rect>
           </svg>
           <span
-            class="ml-2 text-xl font-bold tracking-wide text-gray-100 uppercase"
-          >LDV</span>
-        </a>
+            :class="{'text-white': this.checkIfHome(), 'text-gray-700 dark:text-gray-100': !this.checkIfHome()}"
+            class="ml-2 text-xl font-bold tracking-wide uppercase">LDV</span>
+        </router-link>
         <ul class="flex items-center hidden space-x-8 lg:flex">
           <li>
-            <a
-              href="/"
-              aria-label="Product pricing"
-              title="Product pricing"
-              class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
-            >Pricing</a
-            >
+            <router-link
+              to="/"
+              active-class="active-navigation"
+              aria-label="Home"
+              title="Home"
+              :class="{'text-white': this.checkIfHome(), 'text-gray-700 dark:text-gray-100': !this.checkIfHome()}"
+              class="font-medium tracking-wide text-gray-700 dark:text-gray-100 transition-colors duration-200">
+              Home</router-link>
           </li>
           <li>
-            <a
-              href="/"
-              aria-label="About us"
-              title="About us"
-              class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400">
-              About me</a>
+            <router-link
+              to="/portfolio"
+              active-class="active-navigation"
+              aria-label="Portfolio"
+              title="Portfolio"
+              :class="{'text-white': this.checkIfHome(), 'text-gray-700 dark:text-gray-100': !this.checkIfHome()}"
+              class="font-medium tracking-wide transition-colors duration-200">Portfolio</router-link>
+          </li>
+          <li>
+            <router-link
+              to="/about"
+              active-class="active-navigation"
+              aria-label="About me"
+              title="About me"
+              :class="{'text-white': this.checkIfHome(), 'text-gray-700 dark:text-gray-100': !this.checkIfHome()}"
+              class="font-medium tracking-wide dark:text-gray-100 transition-colors duration-200">About me</router-link>
           </li>
         </ul>
-        <div class="lg:hidden">
+        <ul class="flex items-center hidden space-x-8 lg:flex">
+            <dark-mode-toggle></dark-mode-toggle>
+        </ul>
+        <div class="lg:hidden flex items-center">
+          <div class="px-8">
+            <dark-mode-toggle></dark-mode-toggle>
+          </div>
           <button
             aria-label="Open Menu"
             title="Open Menu"
             class="p-2 -mr-1 transition duration-200 rounded focus:outline-none focus:shadow-outline"
             @click="isMenuOpen = true"
           >
-            <svg class="w-5 text-white" viewBox="0 0 24 24">
+            <svg
+              :class="{'text-gray-100': this.checkIfHome(), 'text-gray-900 dark:text-gray-100': !this.checkIfHome()}"
+              class="w-5" viewBox="0 0 24 24">
               <path
                 fill="currentColor"
                 d="M23,13H1c-0.6,0-1-0.4-1-1s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,13,23,13z"
@@ -99,8 +93,7 @@
                     href="/"
                     aria-label="LDV"
                     title="LDV"
-                    class="inline-flex items-center"
-                  >
+                    class="inline-flex items-center">
                     <svg
                       class="w-8 text-secondary-color"
                       viewBox="0 0 24 24"
@@ -141,39 +134,33 @@
               <nav>
                 <ul class="space-y-4">
                   <li>
-                    <a
-                      href="/"
-                      aria-label="Our product"
-                      title="Our product"
-                      class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                    >Product</a
-                    >
+                    <router-link
+                      to="/"
+                      active-class="active-navigation-mobile"
+                      @click="isMenuOpen = false"
+                      aria-label="Home"
+                      title="Home"
+                      class="font-medium tracking-wide text-gray-700 transition-colors duration-200">
+                      Home</router-link>
                   </li>
                   <li>
-                    <a
-                      href="/"
-                      aria-label="Our product"
-                      title="Our product"
-                      class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                    >Features</a
-                    >
+                    <router-link
+                      to="/portfolio"
+                      active-class="active-navigation-mobile"
+                      @click="isMenuOpen = false"
+                      aria-label="Portfolio"
+                      title="Portfolio"
+                      class="font-medium tracking-wide text-gray-700 transition-colors duration-200">
+                      Portfolio</router-link>
                   </li>
                   <li>
-                    <a
-                      href="/"
-                      aria-label="Product pricing"
-                      title="Product pricing"
-                      class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                    >Pricing</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="/"
-                      aria-label="About us"
-                      title="About us"
-                      class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-                    >About me</a>
+                    <router-link
+                      to="/about"
+                      active-class="active-navigation-mobile"
+                      @click="isMenuOpen = false"
+                      aria-label="About me"
+                      title="About me"
+                      class="font-medium tracking-wide text-gray-700 transition-colors duration-200">About me</router-link>
                   </li>
                 </ul>
               </nav>
@@ -187,11 +174,18 @@
 </template>
 
 <script>
+import DarkModeToggle from '../DarkModeToggle'
 export default {
   name: 'NavigationComponent',
+  components: { DarkModeToggle },
   data () {
     return {
       isMenuOpen: false
+    }
+  },
+  methods: {
+    checkIfHome () {
+      return this.$route.name === 'Home'
     }
   }
 }

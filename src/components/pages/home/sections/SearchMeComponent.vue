@@ -1,6 +1,7 @@
 <template>
-  <div>
-      <div v-if="closed" @click="isOpened = true, isMinimized= false, closed = false" class="h-12 w-fit bg-primary-color hover:bg-secondary-color rounded-r-xl flex flex-col justify-center p-5 cursor-pointer">
+    <div class="h-full overflow-x-hidden overflow-y-hidden pb-20">
+    <transition-group name="nested">
+      <div v-if="closed" @click="isOpened = true; isMinimized= false; closed = false" class="outer h-12 w-24 flex items-center bg-primary-color hover:bg-secondary-color rounded-r-xl p-5 cursor-pointer">
         <div class="text-white flex items-center">
           <span class="text-sm">Open</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -8,17 +9,17 @@
           </svg>
         </div>
       </div>
-      <div v-if="!closed" :class="{minimize: isMinimized, open:isOpened}" class="flex flex-col justify-center p-5">
-        <section class="h-full shadow-2xl rounded-md bg-white w-full md:w-5/6 mx-auto">
-          <header class="flex justify-between items-center py-1 px-5">
-            <div class="flex flex-row items-center">
-              <div @click="closed = true, isMinimized= false, isOpened = false" class="bg-red-400 text-white rounded-full p-1 mr-2 cursor-pointer h-4 w-4">
+      <div v-if="!closed" :class="{'search-minimized': isMinimized, 'search-opened': isOpened }" class="h-full w-full inner justify-center">
+        <section id="search-website" ref="section" :class="{'extended': isExtended, 'notExtended': isExtended === false }" class="h-full shadow-2xl rounded-md bg-white w-full mx-auto">
+          <header class="w-full grid grid-cols-3 md:grid-cols-5 justify-between items-center bg-gray-200 dark:bg-gray-700 rounded-t-md">
+            <div :class="{'bg-gray-200 dark:bg-gray-800': showSidebar, 'contrast-75': activeContent }" class="col-span-1 py-1 px-4 flex flex-row items-center">
+              <div @click="closed = true" class="bg-red-400 text-white rounded-full p-1 mr-2 cursor-pointer h-4 w-4">
               </div>
-              <div @click="isMinimized = true, isClosed= false, isOpened = false" class="bg-yellow-400 text-white rounded-full p-1 mr-2 cursor-pointer h-4 w-4">
+              <div @click="isExtended = false" class="bg-yellow-400 text-white rounded-full p-1 mr-2 cursor-pointer h-4 w-4">
               </div>
-              <div @click="isOpened = true, isMinimized= false, isClosed = false" class="bg-green-400 text-white rounded-full p-1 mr-5 cursor-pointer h-4 w-4">
+              <div @click="isOpened = true; isExtended = true" class="bg-green-400 text-white rounded-full p-1 mr-5 cursor-pointer h-4 w-4">
               </div>
-              <button class="hidden md:block flex flex-col justify-center items-center p-1 m-1 rounded-full text-gray-500 transition-color hover:bg-gray-100 hover:bg-opacity-60 focus:outline-none focus:ring-2">
+              <button @click="showSidebar = !showSidebar" class="hidden md:block flex flex-col justify-center items-center p-1 m-1 rounded-full text-gray-500 transition-color hover:bg-gray-100 hover:bg-opacity-60 focus:outline-none focus:ring-2">
                 <svg class="fill-current h-5 w-5" viewBox="0 0 20 20">
                   <path d="M3.015,4.779h1.164V3.615H3.015V4.779z M18.73,1.869H1.269c-0.322,0-0.582,0.26-0.582,0.582v15.133
                       c0,0.322,0.26,0.582,0.582,0.582H18.73c0.321,0,0.582-0.26,0.582-0.582V2.451C19.312,2.129,19.052,1.869,18.73,1.869z
@@ -42,20 +43,20 @@
                 </svg>
               </button>
             </div>
-            <div class="flex items-center px-2 border border-gray-300 rounded-md outline-none w-full focus:outline-none focus:ring">
-              <svg v-on:click="focusInput()" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <div class="col-span-2 md:col-span-3 group flex items-center group-focus:justify-left ml-5 my-2 border border-transparent rounded-md outline-none focus:outline-none focus:ring bg-gray-300 dark:bg-gray-900 p-1 mx-5 md:mx-0">
+              <svg v-on:click="focusInput()" xmlns="http://www.w3.org/2000/svg" class="text-center group-focus:text-left h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               <input
                 ref="search"
                 type="text"
                 v-model="search"
-                v-on:keydown.enter="getSearch()"
-                placeholder="Search My Created Websites"
-                class="w-full placeholder-gray-400 text-gray-400 border-hidden focus:outline-none focus:ring-transparent text-sm py-1 "
+                @keyup.enter="checkSearch(this.search)"
+                placeholder="Search or enter website name"
+                class="w-full bg-transparent border-none border-transparent placeholder-gray-400 text-xs text-center focus:text-left text-gray-400 border-hidden focus:outline-none focus:ring-transparent py-1 transition duration-150 ease-out hover:ease-in"
               />
             </div>
-            <div class="hidden md:flex flex-row items-center text-gray-400">
+            <div class="hidden md:flex flex-row items-center justify-end text-gray-400 px-5 col-span-1">
               <button class="flex flex-col justify-center items-center p-1 m-1 rounded-full transition-colors hover:bg-gray-100 hover:bg-opacity-60 focus:outline-none focus:ring-2">
                 <svg class="fill-current h-4 w-4" viewBox="0 0 20 20">
                   <path
@@ -81,102 +82,155 @@
               </button>
             </div>
           </header>
-          <main class="bg-gradient-to-r from-primary-color to-secondary-color h-full flex flex-col justify-center rounded-b-md">
-            <iframe v-if="existsSearch()" id="inlineFrameExample" class="h-full"
-                    title="Inline Frame Example"
-                    :src="getSearch()">
-            </iframe>
-            <div v-else class="flex flex-col justify-center items-center p-5">
-              <div class="lg:w-3/4 mx-auto">
-                <h1 class="text-white text-lg font-bold mb-3">Favourites {{search}}</h1>
-                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4">
-                  <div class="max-w-xs cursor-pointer block p-2 rounded-md transition-colors hover:bg-gray-50 hover:bg-opacity-30">
-                    <div class="bg-white rounded-md mb-2 flex justify-center items-center">
-                      <img class="h-20 rounded-md" src="https://www.iconpacks.net/icons/2/free-youtube-logo-icon-2431-thumb.png" alt="YT icon">
+          <div class="flex h-full bg-gradient-to-r from-primary-color to-secondary-color">
+            <transition name="slide-fade">
+              <!--Sidebar-->
+              <div v-if="showSidebar" :class="{'contrast-75': activeContent }" class="outer overflow-x-hidden h-full w-1/5 bg-gray-200 dark:bg-gray-800 rounded-r-sm" @click="activeContent = false">
+                <sidebar-search-me-component></sidebar-search-me-component>
+              </div>
+            </transition>
+            <main :class="{'w-4/5': showSidebar, 'w-full': !showSidebar }" class="h-full flex flex-col justify-center overflow-x-hidden" @click="activeContent = true">
+              <!--Website-->
+              <iframe @click="activeContent = true" v-if="existsSearch" id="inlineFrameExample" class="h-full w-full"
+                      title="Inline Frame Example"
+                      :src="'https://' + this.search">
+              </iframe>
+              <div v-else class="flex items-center p-5">
+                <div class="lg:w-3/4 mx-auto">
+                  <h1 class="text-white text-lg font-bold mb-3">Favourites {{search}}</h1>
+                  <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+                    <div v-for="link in links" :key="link" @click="getSearchClicking(link.url)" class="max-w-xs cursor-pointer block p-2 rounded-md transition-colors hover:bg-gray-50 hover:bg-opacity-30">
+                      <div class="bg-white rounded-md mb-2 flex justify-center items-center">
+                        <img class="w-full h-full rounded-md" :src="link.img" :alt="link.alt">
+                      </div>
+                      <h2 class="text-white text-center font-semibold">{{ link.name }}</h2>
                     </div>
-                    <h2 class="text-white text-center font-semibold">Channel</h2>
-                  </div>
-                  <div class="cursor-pointer block p-1 rounded-md transition-colors hover:bg-gray-50 hover:bg-opacity-30">
-                    <div class="bg-white rounded-md mb-2 flex justify-center items-center">
-                      <img class="h-20 rounded-md" src="https://www.iconpacks.net/icons/2/free-youtube-logo-icon-2431-thumb.png" alt="YT icon">
-                    </div>
-                    <h2 class="text-white text-center font-semibold">Videos</h2>
-                  </div>
-                  <a href="https://tailwindcomponents.com/u/dece0" target="_blank" rel="noopener noreferrer" class="cursor-pointer block p-1 rounded-md transition-colors hover:bg-gray-50 hover:bg-opacity-30">
-                    <div class="bg-white rounded-md mb-2 flex justify-center items-center">
-                      <img class="h-20 rounded-md" src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="Github icon">
-                    </div>
-                    <h2 class="text-white text-center font-semibold">Dece0</h2>
-                  </a>
-                  <a href="http://svgicons.sparkk.fr/" target="_blank" rel="noopener noreferrer" class="cursor-pointer block p-1 rounded-md transition-colors hover:bg-gray-50 hover:bg-opacity-30">
-                    <div class="bg-white rounded-md mb-2 flex justify-center items-center">
-                      <svg class="fill-current h-20 text-blue-500" viewBox="0 0 20 20">
-                        <path d="M10,2.531c-4.125,0-7.469,3.344-7.469,7.469c0,4.125,3.344,7.469,7.469,7.469c4.125,0,7.469-3.344,7.469-7.469C17.469,5.875,14.125,2.531,10,2.531 M10,3.776c1.48,0,2.84,0.519,3.908,1.384c-1.009,0.811-2.111,1.512-3.298,2.066C9.914,6.072,9.077,5.017,8.14,4.059C8.728,3.876,9.352,3.776,10,3.776 M6.903,4.606c0.962,0.93,1.82,1.969,2.53,3.112C7.707,8.364,5.849,8.734,3.902,8.75C4.264,6.976,5.382,5.481,6.903,4.606 M3.776,10c2.219,0,4.338-0.418,6.29-1.175c0.209,0.404,0.405,0.813,0.579,1.236c-2.147,0.805-3.953,2.294-5.177,4.195C4.421,13.143,3.776,11.648,3.776,10 M10,16.224c-1.337,0-2.572-0.426-3.586-1.143c1.079-1.748,2.709-3.119,4.659-3.853c0.483,1.488,0.755,3.071,0.784,4.714C11.271,16.125,10.646,16.224,10,16.224 M13.075,15.407c-0.072-1.577-0.342-3.103-0.806-4.542c0.673-0.154,1.369-0.243,2.087-0.243c0.621,0,1.22,0.085,1.807,0.203C15.902,12.791,14.728,14.465,13.075,15.407 M14.356,9.378c-0.868,0-1.708,0.116-2.515,0.313c-0.188-0.464-0.396-0.917-0.621-1.359c1.294-0.612,2.492-1.387,3.587-2.284c0.798,0.97,1.302,2.187,1.395,3.517C15.602,9.455,14.99,9.378,14.356,9.378"></path>
-                      </svg>
-                    </div>
-                    <h2 class="text-white text-center font-semibold">SVG icons</h2>
-                  </a>
-                  <div class="cursor-pointer block p-1 rounded-md transition-colors hover:bg-gray-50 hover:bg-opacity-30">
-                    <div class="bg-white rounded-md mb-2 flex justify-center items-center">
-                      <img class="h-20 rounded-md" src="https://images-na.ssl-images-amazon.com/images/I/41AD72RCzmL.png" alt="NY times icon">
-                    </div>
-                    <h2 class="text-white text-center font-semibold">NY Times</h2>
-                  </div>
-                  <div class="cursor-pointer block p-1 rounded-md transition-colors hover:bg-gray-50 hover:bg-opacity-30">
-                    <div class="bg-white rounded-md mb-2 flex justify-center items-center">
-                      <img class="h-20 rounded-md" src="https://www.stuba.sk/buxus/assets/images/web/icons/stu_800.png" alt="STU icon">
-                    </div>
-                    <h2 class="text-white text-center font-semibold">STU</h2>
                   </div>
                 </div>
               </div>
-            </div>
-          </main>
+            </main>
+          </div>
         </section>
       </div>
+    </transition-group>
   </div>
 </template>
 
 <script>
+import SidebarSearchMeComponent from './SearchMeChilds/SidebarSearchMeComponent'
 export default {
   name: 'SearchMeComponent',
+  components: { SidebarSearchMeComponent },
   data: function () {
     return {
       search: '',
       link: '',
       links: [
-        'ldvloper.com',
-        'jellyplot.com',
-        'insitutodeasesoriabiologica.com'
+        { name: 'Jellyplot', url: 'www.jellyplot.com', img: 'https://www.jellyplot.com/assets/images/social-preview.png', alt: 'Jellyplot Logo' }
       ],
+      showSidebar: false,
       closed: false,
       isMinimized: false,
-      isOpened: true
+      isOpened: true,
+      isExtended: false,
+      activeContent: false,
+      existsSearch: false
+    }
+  },
+  watch: {
+    search: function (newSearch, oldSearch) {
+      this.existsSearch = false
     }
   },
   methods: {
-    getSearch: function () {
-      this.link = 'https://www.' + this.search
-      return this.link
-    },
     focusInput () {
       this.$refs.search.focus()
     },
-    existsSearch: function () {
-      return this.links.includes(this.search)
+    checkSearch: function (search) {
+      this.existsSearch = this.links.some(item => item.url === search)
+    },
+    getSearchClicking: function (element) {
+      this.search = element
+      this.existsSearch = true
+    },
+    getAllData () {
+      this.isExtended = true
     }
+  },
+  mounted () {
+    window.addEventListener('keyup', (e) => {
+      if (e.key === '/') {
+        document.getElementById('search-website').scrollIntoView({
+          behavior: 'auto',
+          block: 'center',
+          inline: 'center'
+        })
+        e.preventDefault()
+        this.isExtended = true
+        this.$refs.search.focus()
+      }
+    })
+    window.addEventListener('keyup', (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        this.isExtended = false
+        this.closed = true
+      }
+    })
   }
 }
 </script>
 
 <style>
-.close {
-  display: none;
-}
-.close {
-  height: 33.333333%;
-}
-.open {
+.search-opened {
   height: 100vh;
+  transition: 1000ms ease-in-out;
+  transition-delay: 200ms;
+}
+.search-minimized{
+  height: 33%;
+  transition: 1000ms ease-in-out;
+  transition-delay: 200ms;
+}
+
+@media (min-width: 768px) {
+  .extended{
+    width: 100%;
+    transition: 1000ms ease-in-out;
+    transition-delay: 200ms;
+  }
+  .notExtended{
+    width: 66%;
+    transition: 1000ms ease-in-out;
+    transition-delay: 200ms;
+  }
+}
+
+/* Nested Transition | rules that target nested elements */
+.nested-enter-active .inner,
+.nested-leave-active .inner {
+  transition: all 1s ease-in-out;
+}
+
+.nested-enter-from .inner,
+.nested-leave-to .inner {
+  transform: translateX(-50px);
+  opacity: 0;
+}
+
+/* Slide Fade | Enter and leave animations can use different
+  durations and timing functions. */
+.slide-fade-enter-active {
+  transition: all 0.2s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(-10px);
+  opacity: 0;
 }
 </style>

@@ -1,5 +1,12 @@
 <template>
   <footer class="text-gray-600 bg-white dark:bg-gray-800 body-font">
+    <div class="container px-5 pt-5 mx-auto flex items-center justify-end">
+      <div
+        :class="{'bg-slate-400 dark:bg-slate-900': this.checkIfHome(), 'bg-slate-200 dark:bg-slate-900': !this.checkIfHome()}"
+        class="rounded-md">
+        <dark-mode-toggle></dark-mode-toggle>
+      </div>
+    </div>
     <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
       <a href="/" class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900 dark:text-white hover:text-secondary-color">
         <svg
@@ -18,7 +25,7 @@
         <span class="ml-3 text-xl">LDV</span>
       </a>
       <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">© {{ this.getYear() }} LDV —
-        <a href="https://twitter.com/knyttneve" class="text-gray-600 ml-1 hover:text-secondary-color" rel="noopener noreferrer" target="_blank">@luigi_dv</a>
+        <span class="text-gray-600 ml-1" rel="@luigi_dv">@luigi_dv</span>
       </p>
       <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
       <a href="https://github.com/Luigi-DV" class="text-gray-500 dark:text-gray-200 hover:text-secondary-color">
@@ -38,11 +45,16 @@
 </template>
 
 <script>
+import DarkModeToggle from '../DarkModeToggle'
 export default {
+  components: { DarkModeToggle },
   name: 'FooterComponent',
   methods: {
     getYear: function () {
       return new Date().getFullYear()
+    },
+    checkIfHome () {
+      return this.$route.name === 'Home'
     }
   }
 }

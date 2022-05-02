@@ -1,6 +1,7 @@
 import { createWebHashHistory, createRouter } from 'vue-router'
 import HomeComponent from '../components/pages/home/HomeComponent'
-import NewsComponent from '../components/pages/news/NewsComponent'
+import AboutComponent from '../components/pages/about/AboutComponent'
+import PortfolioComponent from '../components/pages/portfolio/PortfolioComponent'
 
 const routes = [
   {
@@ -9,14 +10,23 @@ const routes = [
     component: HomeComponent
   },
   {
-    path: '/news',
-    name: 'news',
-    component: NewsComponent
+    path: '/portfolio',
+    name: 'portfolio',
+    component: PortfolioComponent
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: AboutComponent
   }
 
 ]
 
 const router = createRouter({
+  scrollBehavior (to, from, savedPosition) {
+    // always scroll to top
+    return { top: 0 }
+  },
   mode: 'hash',
   history: createWebHashHistory(),
   routes
