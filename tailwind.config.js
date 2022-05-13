@@ -53,7 +53,6 @@ module.exports = {
   },
   variants: {
     extend: {
-      display: ['group-hover'],
       brightness: {
         85: '.85'
       }
