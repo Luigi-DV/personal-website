@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+  <div class="min-h-screen px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
     <div class="grid gap-8 lg:grid-cols-3 sm:max-w-sm sm:mx-auto lg:max-w-full">
       <a :href="item.link" :aria-label="item.title" :title="item.title" target="_blank" v-for="item in portfolio" :id="item.id" :key="item.id"
          class="cursor-pointer hover:border-primary-color dark:hover:border-secondary-color hover:border-b hover:border-t overflow-hidden transition-shadow duration-300 bg-white dark:bg-gray-800 rounded-md shadow-xl">

@@ -5,15 +5,16 @@
       <img class="md:w-40 rounded-full" src="../../../../assets/img/home/hero/1636117346076.jpeg" alt="">
     </div>
     <div class="md:border-l-2 pl-4 p-2 col-span-2 text-justify md:w-1/2 mt-10 md:mt-0">
-      <h1 class="h-22 md:h-12 flex items-center text-base text-black dark:text-secondary-color bg-slate-200 dark:bg-slate-900 rounded-xl px-4 py-2 font-mono selection:bg-green-500 selection:text-black">
-         <vue-writer :array="['curl https://luigelo.ldvloper.com/#/about']"
-                     :typeSpeed="70" :caret="'cursor'" :iterations='1'>
-           <span class="text-green-600 dark:text-green-500 font-italic mr-1">session@{{ this.ip }}~</span>
-         </vue-writer>
-      </h1>
-      <p class="mt-4">
-        After working as a web developer for the last 3 years, I decided to create Ldvloper, which provides the highest quality mobile app development services. This allows me to develop my knowledge of building software and applications. I have great interest in programming and I have developed several projects in this field during my university experience. In my free time I enjoy creating new things and learning new skills to improve my technical skills.
-      </p>
+      <div>
+        <div class="mockup-code">
+          <pre data-prefix="$" v-if="this.ip"><code><span class="text-green-600 dark:text-green-500 font-italic mr-1">{{ this.ip }} ~</span>curl https://luigelo.ldvloper.com/about</code></pre>
+          <pre v-if="!this.ip" data-prefix=">" class="text-warning"><code>loading <span :class="{'animate-pulse': !this.ip}">...</span></code></pre>
+          <pre v-else data-prefix=">" class="bg-success"><code>Done!</code></pre>
+        </div>
+        <p class="mt-4">
+          After working as a web developer for the last 3 years, I decided to create Ldvloper, which provides the highest quality mobile app development services. This allows me to develop my knowledge of building software and applications. I have great interest in programming and I have developed several projects in this field during my university experience. In my free time I enjoy creating new things and learning new skills to improve my technical skills.
+        </p>
+      </div>
     </div>
   </div>
   <!--Contact-->
