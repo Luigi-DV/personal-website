@@ -48,6 +48,15 @@ export default {
           link: 'https://movieapp.ldvloper.com',
           preview: 'Movie App is a VueJS based SPA that delivery movies and series content obtained via API.',
           image: 'https://movieapp.ldvloper.com/social-preview.png'
+        },
+        {
+          id: 2,
+          date: 'Mar 2022',
+          title: 'Self Driving Car',
+          category: 'Neuronal Network',
+          link: 'https://self-driving-car.neuronalnetwork.ldvloper.com',
+          preview: 'Neuronal Network that is applied in a self driving car animation.',
+          image: 'https://self-driving-car.neuronalnetwork.ldvloper.com/social-preview.png'
         }
       ]
     }
